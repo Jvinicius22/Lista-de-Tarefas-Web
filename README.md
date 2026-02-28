@@ -5,7 +5,7 @@ Funções:
 - Limpar toda a caixa de tarefas
 - Remover ou editar tarefas já adicionadas
 
-Linguagens utilizada:
+Linguagens utilizadas:
 - html
 - css
 - javascript
