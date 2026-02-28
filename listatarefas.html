@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tarefas Web</title>
+</head>
+<style>
+   
+    body{
+        background: linear-gradient(130deg,black,#014486);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial, Helvetica, sans-serif;
+        height: 100vh;
+        margin: 0;
+    }
+
+    h1{
+        color: white;
+    }
+
+    p{
+        color: white;
+        text-align: center;
+    }
+
+    .caixa{
+        text-align: center;
+        width: 90%;
+        padding: 20px;
+        border-radius: 9px;
+        border: 3px solid black;
+        max-width: 600px;
+        background-color: #023c75;
+         box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .botao_adicionar{
+        background-color: lightgreen;
+        color: black;
+        border: 1px solid black;
+        border-radius: 5px;
+        margin-top: 10px;
+        font-size: 1em;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+    .botao_adicionar:hover{
+        background-color: white;
+        color: lightgreen;
+    }
+    
+    .botao_lista{
+        background-color:  #A34743;
+        color: black;
+        border: 1px solid black;
+        border-radius: 5px;
+        margin-top: 10px;
+        font-size: 1em;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+    .botao_lista:hover{
+        background-color: white;
+        color: #A34743;
+    }
+
+    input[type="texto"]{
+        padding: 11px;
+        width: 80%;
+        max-width: 500px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border: 3px solid black;
+        box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        outline: none;
+        transition: border-color 0.3s ease;
+    }
+    
+    input[type="texto"]:focus {
+    border-color:#023c75;
+    }
+
+    button.remover{
+    background-color: #023c75;
+    color: #F4F0EA;
+    padding: 5px 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+    margin-left: 5px;
+    transition: background-color 0.3s ease;
+    }
+    button.remover:hover {
+    background-color: #60041A;
+    }
+
+    button.editar {
+    background-color: #023c75;
+    color: #F4F0EA;
+    padding: 5px 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+    margin-left: 5px;
+    transition: background-color 0.3s ease;
+}
+button.editar:hover {
+    background-color: lightgreen;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+ul li {
+    background-color: #F4F0EA;
+    color: #331F19;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+</style>
+<body>
+
+   <div class="caixa">
+
+    <h1>Lista de Tarefas Web</h1>
+    <p>Adicone suas tarefas !</p>
+
+    <input type="texto" id="inputTarefa" placeholder="Digite sua Tarefa">
+    <button onclick="Adcionartarefa()" class="botao_adicionar">Adcionar Tarefa</button>
+    <button onclick="Limparlista()" class="botao_lista">Limpar Tudo</button>
+    <p id="mensagem"></p>
+    <ul id="listaTarefas"></ul>
+
+   </div>
+
+    <!---JavaScript--->
+   <script>
+    
+    let tarefas = []
+
+    function Adcionartarefa() {
+        const inputTarefa = document.getElementById("inputTarefa")
+        let tarefa = inputTarefa.value.trim()
+
+        const mensagem = document.getElementById("mensagem")
+
+        if(tarefa == "") {
+            let mensagemErro = "Digite uma tarefa para ser adicionada a lista!"
+            mensagem.textContent = mensagemErro
+        }   else{
+            let mensagemSucesso = "Tarefa adicionada com sucesso!"
+            mensagem.textContent = mensagemSucesso
+            tarefas.push(tarefa)
+            renderizarTarefas()
+        }
+
+        inputTarefa.value = ""
+    }
+
+    function renderizarTarefas() {
+        const listaTarefas = document.getElementById("listaTarefas")
+        listaTarefas.innerHTML = ""
+
+        for (let i = 0; i < tarefas.length; i++) {
+            let novaTarefa = document.createElement("li")
+            novaTarefa.textContent = tarefas[i]
+
+            let botaoRemover = document.createElement("button")
+            botaoRemover.className = "remover"
+            botaoRemover.textContent = "Remover"
+            botaoRemover.onclick = () => removerTarefa(i)
+
+            let botaoEditar = document.createElement("button")
+            botaoEditar.className = "editar"
+            botaoEditar.textContent = "Editar"
+            botaoEditar.onclick = () => editarTarefa(i)
+
+            novaTarefa.appendChild(botaoRemover)
+            novaTarefa.appendChild(botaoEditar)
+            listaTarefas.appendChild(novaTarefa)
+        }
+    }
+
+    function removerTarefa(i) {
+        tarefas.splice(i,1)
+        renderizarTarefas()
+    }
+
+    function editarTarefa(i) {
+        let tarefaEditada = prompt("Edite a tarefa em questão:")
+        if(tarefaEditada.trim() !=="") {
+            tarefas(i) = tarefaEditada
+            renderizarTarefas()
+        }
+    }
+
+    function Limparlista() {
+        tarefas.length = 0
+        renderizarTarefas()
+         const mensagem = document.getElementById("mensagem")
+         mensagem.textContent = "Lista de tarefas limpa com sucesso!"
+    }
+    
+   </script>
+
+</body>
+</html>
