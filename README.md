@@ -9,6 +9,3 @@ Linguagens utilizadas:
 - html
 - css
 - javascript
-- dom
-- to-do-list
-- web-project
